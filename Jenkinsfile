@@ -20,11 +20,14 @@ pipeline {
 		stage('Checkout') {
 			steps{
 				echo "------------>Checkout<------------"
+				checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], 
+				gitTool:'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId:'GitHub_michaelorozcovargas', url:'https://github.com/michaelorozcovargas/estacionamiento']]])
 			}
 		}		
 		stage('Unit Tests') {
 			steps{
 				echo "------------>Unit Tests<------------"
+				sh 'gradle --b ./build.gradle test'
 			}
 		}		
 		stage('Integration Tests') {
@@ -43,6 +46,9 @@ pipeline {
 		stage('Build') {
 			steps {
 				echo "------------>Build<------------"
+				// sh 'gradle --b ./estacionamiento/build.gradle compileJava'
+				//Construir sin tarea test que se ejecutó previamente
+				sh '​gradle --b ./build.gradle build -x test'
 			}
 		}
 	}	
@@ -52,9 +58,11 @@ pipeline {
 		}		
 		success {
 			echo 'This will run only if successful'
+			junit '**/build/test-results/test/*.xml'
 		}		
 		failure {
 			echo 'This will run only if failed'
+			mail (to: 'yuliana.canas@ceiba.com.co',subject: "Failed Pipeline:${currentBuild.fullDisplayName}",body: "Something is wrong with ${env.BUILD_URL}")
 		}		
 		unstable {
 			echo 'This will run only if the run was marked as unstable'
