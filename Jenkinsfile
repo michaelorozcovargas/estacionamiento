@@ -40,5 +40,15 @@ pipeline {
 				}
 			}
 		}
+		// Construccion del proyecto
+		stage('Build') {
+			steps{
+				echo "------------>Build<------------"
+				sh 'gradle --b ./estacionamiento/build.gradle compileJava'
+				
+				//Construir sin tarea test que se ejecuto previamente
+				// sh 'gradle --b ./build.gradle build -x test'
+			}
+		}
 	}
 }
