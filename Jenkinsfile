@@ -16,11 +16,19 @@ pipeline {
 		gradle 'Gradle4.5_Centos' //Preinstalada en la ConfiguraciÃ³n del Master
 	}
 	stages{
+		// Checkout del codigo fuente
 		stage('Checkout') {
 			steps{
 				echo "------------>Checkout<------------"
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], 
 				gitTool:'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId:'GitHub_michaelorozcovargas', url:'https://github.com/michaelorozcovargas/estacionamiento']]])
+			}
+		}
+		// Pruebas unitarias
+		stage('Unit Tests') {
+			steps{
+				echo "------------>Unit Tests<------------"
+				sh 'gradle --b ./build.gradle test'
 			}
 		}
 	}
