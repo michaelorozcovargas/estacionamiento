@@ -61,7 +61,7 @@ pipeline {
 		// Ante exito
 		success {
 			echo 'This will run only if successful'
-			junit '**/build/test-results/*.xml'
+			junit '**/jacoco/test-results/*.xml'
 		}
 	}
 }
