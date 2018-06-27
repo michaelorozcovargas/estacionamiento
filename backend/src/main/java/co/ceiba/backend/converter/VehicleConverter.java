@@ -1,6 +1,7 @@
 package co.ceiba.backend.converter;
 
 import co.ceiba.backend.entity.Vehicle;
+import co.ceiba.backend.entity.VehicleTypeEnum;
 import co.ceiba.backend.model.VehicleModel;
 
 /**
@@ -35,6 +36,7 @@ public final class VehicleConverter {
 	 * 
 	 * @param vehicleModel
 	 *            objeto a convertir
+	 * 
 	 * @return objeto de tipo {@link Vehicle}
 	 */
 	public Vehicle getVehicle(VehicleModel vehicleModel) {
@@ -43,6 +45,7 @@ public final class VehicleConverter {
 		vehicle.setId(vehicle.getId());
 		vehicle.setPlate(vehicleModel.getPlate());
 		vehicle.setCubicCentimeters(vehicleModel.getCubicCentimeters());
+		vehicle.setVehicleType(VehicleTypeEnum.valueOf(vehicleModel.getVehicleType()));
 
 		return vehicle;
 	}

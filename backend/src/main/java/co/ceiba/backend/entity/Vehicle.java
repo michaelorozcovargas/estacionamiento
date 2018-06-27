@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -19,25 +20,25 @@ public class Vehicle {
 	 * Identificador del vehiculo
 	 */
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
 	/**
 	 * Placa del vehiculo
 	 */
-	@Column
+	@Column(nullable = false, unique = true)
 	private String plate;
 
 	/**
 	 * Centimetros cubicos
 	 */
-	@Column
+	@Column(nullable = true)
 	private Integer cubicCentimeters;
 
 	/**
 	 * Tipo de vehiculo
 	 */
-	@Column
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private VehicleTypeEnum vehicleType;
 

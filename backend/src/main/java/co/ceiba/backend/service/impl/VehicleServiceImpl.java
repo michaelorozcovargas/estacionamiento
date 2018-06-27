@@ -2,19 +2,21 @@ package co.ceiba.backend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import co.ceiba.backend.converter.VehicleConverter;
 import co.ceiba.backend.entity.Vehicle;
 import co.ceiba.backend.model.VehicleModel;
 import co.ceiba.backend.repository.VehicleRepository;
-import co.ceiba.backend.service.VehicleRegistryService;
+import co.ceiba.backend.service.VehicleService;
 
 /**
- * Implementacion de la interface {@link VehicleRegistryService}
+ * Implementacion de la interface {@link VehicleService}
  * 
  * @author michael.orozco
  */
-public class VehicleRegistryServiceImpl implements VehicleRegistryService {
+@Service("vehicleService")
+public class VehicleServiceImpl implements VehicleService {
 
 	/**
 	 * Repositorio para la entidad {@link Vehicle}
@@ -26,7 +28,7 @@ public class VehicleRegistryServiceImpl implements VehicleRegistryService {
 	/**
 	 * Metodo constructor de la clase
 	 */
-	public VehicleRegistryServiceImpl() {
+	public VehicleServiceImpl() {
 	}
 
 	/**
@@ -35,7 +37,7 @@ public class VehicleRegistryServiceImpl implements VehicleRegistryService {
 	 * @param vehicleRepository
 	 *            Repositorio para la entidad {@link Vehicle}
 	 */
-	public VehicleRegistryServiceImpl(VehicleRepository vehicleRepository) {
+	public VehicleServiceImpl(VehicleRepository vehicleRepository) {
 		this.vehicleRepository = vehicleRepository;
 	}
 
@@ -43,29 +45,22 @@ public class VehicleRegistryServiceImpl implements VehicleRegistryService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * co.ceiba.backend.service.VehicleRegistryService#registryVehicle(co.ceiba.
-	 * backend.model.VehicleModel)
+	 * co.ceiba.backend.service.VehicleService#getVehicleByPlate(java.lang.String)
 	 */
 	@Override
-	public boolean registryVehicle(VehicleModel vehicleModel) {
-/*
-		boolean registred = false;
-
-		String plate = vehicleModel.getPlate();
-
-		Vehicle vehicle = vehicleRepository.getVehicleByPlate(plate);
-
-		if (vehicle == null) {
-
-			vehicle = VehicleConverter.getInstance().getVehicle(vehicleModel);
-			
-			
-
-		}
-
-		return registred;
-*/		
-		return true;
+	public Vehicle getVehicleByPlate(String plate) {
+		return vehicleRepository.findByPlate(plate);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * co.ceiba.backend.service.VehicleService#registerVehicle(co.ceiba.backend.
+	 * model.VehicleModel)
+	 */
+	@Override
+	public Vehicle registerVehicle(VehicleModel vehicleModel) {
+		return vehicleRepository.save(VehicleConverter.getInstance().getVehicle(vehicleModel));
+	}
 }
