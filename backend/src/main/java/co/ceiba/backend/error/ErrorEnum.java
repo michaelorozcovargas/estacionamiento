@@ -39,26 +39,19 @@ public enum ErrorEnum {
 	}
 
 	/**
-	 * @param errorCode
-	 *            nuevo valor para el campo errorCode
-	 */
-	public void setErrorCode(Integer errorCode) {
-		this.errorCode = errorCode;
-	}
-
-	/**
 	 * @return valor del campo errorMessage
 	 */
 	public String getErrorMessage() {
 		return errorMessage;
 	}
 
-	/**
-	 * @param errorMessage
-	 *            nuevo valor para el campo errorMessage
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Enum#toString()
 	 */
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	@Override
+	public String toString() {
+		return "{ \"code\" : " + errorCode + ", \"message\" : \"" + errorMessage + "\" }";
 	}
-
 }

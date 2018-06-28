@@ -6,8 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import co.ceiba.backend.constants.ApplicationConstants;
 import co.ceiba.backend.entity.ParkingRegistry;
 import co.ceiba.backend.entity.Vehicle;
+import co.ceiba.backend.entity.VehicleTypeEnum;
+import co.ceiba.backend.error.ApplicationException;
+import co.ceiba.backend.error.ErrorEnum;
 import co.ceiba.backend.model.VehicleModel;
 import co.ceiba.backend.repository.ParkingRegistryRepository;
 import co.ceiba.backend.service.ParkingRegistryService;
@@ -44,6 +48,16 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	}
 
 	/**
+	 * Metodo constructor de la clase
+	 * 
+	 * @param parkingRegistryRepository
+	 *            repositorio del objeto {@link ParkingRegistry}
+	 */
+	public ParkingRegistryServiceImpl(ParkingRegistryRepository parkingRegistryRepository) {
+		this.parkingRegistryRepository = parkingRegistryRepository;
+	}
+
+	/**
 	 * Metodo encargado de generar los datos del registro
 	 * 
 	 * @param vehicle
@@ -60,6 +74,40 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 		return parkingRegistry;
 	}
 
+	/**
+	 * Permite consultar la existencia de espacio disponible para un tipo de
+	 * vehiculo
+	 * 
+	 * @param VehicleModel
+	 *            vehiculo
+	 * 
+	 * @return {@link Boolean} que indica la existencia de espacio disponible
+	 */
+	private synchronized boolean existsAvailableSpace(VehicleModel vehicleModel) {
+
+		boolean existsAvailableSpace;
+
+		VehicleTypeEnum vehicleType = VehicleTypeEnum.valueOf(vehicleModel.getVehicleType());
+
+		Integer parkedVehiclesByType = parkingRegistryRepository.countParkedVehiclesByVehicleType(vehicleType);
+
+		switch (vehicleType) {
+
+		case CAR:
+			existsAvailableSpace = parkedVehiclesByType < ApplicationConstants.MAX_PARKED_CARS;
+			break;
+
+		case MOTORCYCLE:
+			existsAvailableSpace = parkedVehiclesByType < ApplicationConstants.MAX_PARKED_MOTORCYCLE;
+			break;
+
+		default:
+			existsAvailableSpace = false;
+		}
+
+		return existsAvailableSpace;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -67,7 +115,13 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	 * backend.model.VehicleModel)
 	 */
 	@Override
-	public boolean registerEntry(VehicleModel vehicleModel) {
+	public boolean registerEntry(VehicleModel vehicleModel) throws ApplicationException {
+
+		// Se verifica la disponibilidad para el tipo de vehiculo
+		boolean availableSpace = existsAvailableSpace(vehicleModel);
+		if (!availableSpace) {
+			throw new ApplicationException(ErrorEnum.UNAVAILABLE_SPACE);
+		}
 
 		String plate = vehicleModel.getPlate();
 

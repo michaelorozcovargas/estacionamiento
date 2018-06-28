@@ -1,5 +1,6 @@
 package co.ceiba.backend.service;
 
+import co.ceiba.backend.error.ApplicationException;
 import co.ceiba.backend.model.VehicleModel;
 
 /**
@@ -16,7 +17,10 @@ public interface ParkingRegistryService {
 	 *            vehiculo que ingresa
 	 * 
 	 * @return {@link Boolean} que define el exito o no de la operacion
+	 * 
+	 * @throws ApplicationException
+	 *             excepcion generada durante la operacion
 	 */
-	boolean registerEntry(VehicleModel vehicle);
+	boolean registerEntry(VehicleModel vehicle) throws ApplicationException;
 
 }

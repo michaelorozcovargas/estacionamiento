@@ -1,7 +1,5 @@
 package co.ceiba.backend.repository;
 
-import java.io.Serializable;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +11,7 @@ import co.ceiba.backend.entity.Vehicle;
  * @author michael.orozco
  */
 @Repository("vehicleRepository")
-public interface VehicleRepository extends JpaRepository<Vehicle, Serializable> {
+public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
 
 	/**
 	 * Permite buscar un vehiculo por su placa

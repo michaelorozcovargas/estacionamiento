@@ -1,28 +1,24 @@
 package co.ceiba.backend.error;
 
+/**
+ * Excepcion personalizada para la aplicacion
+ * 
+ * @author michael.orozco
+ */
 public class ApplicationException extends Exception {
 
-	private ErrorEnum error;
+	/**
+	 * Serial
+	 */
+	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Metodo constructor de la clase
+	 * 
+	 * @param error
+	 *            error asociado
+	 */
 	public ApplicationException(ErrorEnum error) {
-		super();
-		this.error = error;
+		super(error.toString());
 	}
-
-	/**
-	 * @return valor del campo error
-	 */
-	public ErrorEnum getError() {
-		return error;
-	}
-
-	/**
-	 * @param error nuevo valor para el campo error
-	 */
-	public void setError(ErrorEnum error) {
-		this.error = error;
-	}
-
-	
-	
 }
