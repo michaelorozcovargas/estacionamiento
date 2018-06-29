@@ -25,6 +25,6 @@ public interface ParkingRegistryRepository extends JpaRepository<ParkingRegistry
 	 * @return cantidad de vehiculos parqueados por tipo
 	 */
 	@Query(value = "SELECT COUNT(1) FROM ParkingRegistry p WHERE (p.vehicle.vehicleType = :vehicleType) AND (p.outDate IS NULL)")
-	Integer countParkedVehiclesByVehicleType(@Param("vehicleType") VehicleTypeEnum vehicleType);
+	Integer countParkedVehiclesByType(@Param("vehicleType") VehicleTypeEnum vehicleType);
 
 }

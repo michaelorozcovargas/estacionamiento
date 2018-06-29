@@ -29,6 +29,7 @@ public class VehicleServiceImpl implements VehicleService {
 	 * Metodo constructor de la clase
 	 */
 	public VehicleServiceImpl() {
+		// Vacio a proposito
 	}
 
 	/**

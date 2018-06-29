@@ -52,9 +52,13 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	 * 
 	 * @param parkingRegistryRepository
 	 *            repositorio del objeto {@link ParkingRegistry}
+	 * @param vehicleService
+	 *            servicio de vehiculos
 	 */
-	public ParkingRegistryServiceImpl(ParkingRegistryRepository parkingRegistryRepository) {
+	public ParkingRegistryServiceImpl(ParkingRegistryRepository parkingRegistryRepository,
+			VehicleService vehicleService) {
 		this.parkingRegistryRepository = parkingRegistryRepository;
+		this.vehicleService = vehicleService;
 	}
 
 	/**
@@ -78,18 +82,16 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	 * Permite consultar la existencia de espacio disponible para un tipo de
 	 * vehiculo
 	 * 
-	 * @param VehicleModel
-	 *            vehiculo
+	 * @param VehicleType
+	 *            tipo de vehiculo
 	 * 
 	 * @return {@link Boolean} que indica la existencia de espacio disponible
 	 */
-	private synchronized boolean existsAvailableSpace(VehicleModel vehicleModel) {
+	private synchronized boolean existsAvailableSpace(VehicleTypeEnum vehicleType) {
 
 		boolean existsAvailableSpace;
 
-		VehicleTypeEnum vehicleType = VehicleTypeEnum.valueOf(vehicleModel.getVehicleType());
-
-		Integer parkedVehiclesByType = parkingRegistryRepository.countParkedVehiclesByVehicleType(vehicleType);
+		Integer parkedVehiclesByType = parkingRegistryRepository.countParkedVehiclesByType(vehicleType);
 
 		switch (vehicleType) {
 
@@ -118,15 +120,17 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	public boolean registerEntry(VehicleModel vehicleModel) throws ApplicationException {
 
 		// Se verifica la disponibilidad para el tipo de vehiculo
-		boolean availableSpace = existsAvailableSpace(vehicleModel);
+		VehicleTypeEnum vehicleType = VehicleTypeEnum.valueOf(vehicleModel.getVehicleType());
+		boolean availableSpace = existsAvailableSpace(vehicleType);
 		if (!availableSpace) {
 			throw new ApplicationException(ErrorEnum.UNAVAILABLE_SPACE);
 		}
 
+		// Se verifica si ya se encuentra registrado en el sistema
 		String plate = vehicleModel.getPlate();
-
 		Vehicle vehicle = vehicleService.getVehicleByPlate(plate);
 
+		// Se registra en caso de ser necesario
 		if (vehicle == null) {
 			vehicle = vehicleService.registerVehicle(vehicleModel);
 		}
