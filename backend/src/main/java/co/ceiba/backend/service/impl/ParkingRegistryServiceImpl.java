@@ -69,7 +69,7 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	 * 
 	 * @return registro de estacionamiento
 	 */
-	private ParkingRegistry generateRegistry(Vehicle vehicle) {
+	public ParkingRegistry generateRegistry(Vehicle vehicle) {
 
 		ParkingRegistry parkingRegistry = new ParkingRegistry();
 		parkingRegistry.setEntryDate(Calendar.getInstance().getTime());
