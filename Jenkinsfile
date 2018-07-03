@@ -21,7 +21,7 @@ pipeline {
 			steps{
 				echo "------------>Checkout<------------"
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], 
-				gitTool:'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId:'GitHub_michaelorozcovargas', url:'https://github.com/michaelorozcovargas/estacionamiento']]])
+				gitTool:'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId:'bd154c89-0003-4200-a4ca-09a2ce6c1c24', url:'https://github.com/michaelorozcovargas/estacionamiento']]])
 			}
 		}
 		// Pruebas unitarias
