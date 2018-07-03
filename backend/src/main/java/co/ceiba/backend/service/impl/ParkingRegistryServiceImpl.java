@@ -1,12 +1,11 @@
 package co.ceiba.backend.service.impl;
 
-import java.util.Calendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import co.ceiba.backend.constants.ApplicationConstants;
+import co.ceiba.backend.constants.LettersConstants;
 import co.ceiba.backend.entity.ParkingRegistry;
 import co.ceiba.backend.entity.Vehicle;
 import co.ceiba.backend.entity.VehicleTypeEnum;
@@ -16,6 +15,7 @@ import co.ceiba.backend.model.VehicleModel;
 import co.ceiba.backend.repository.ParkingRegistryRepository;
 import co.ceiba.backend.service.ParkingRegistryService;
 import co.ceiba.backend.service.VehicleService;
+import co.ceiba.backend.utilities.CalendarUtil;
 
 /**
  * Clase que implementa los metodos definidos en la interface
@@ -41,6 +41,13 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	private VehicleService vehicleService;
 
 	/**
+	 * Utilidades para el manejo de fechas
+	 */
+	@Autowired
+	@Qualifier("calendarUtil")
+	private CalendarUtil calendarUtil;
+
+	/**
 	 * Metodo constructor de la clase
 	 */
 	public ParkingRegistryServiceImpl() {
@@ -62,6 +69,25 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	}
 
 	/**
+	 * Metodo constructor de la clase
+	 * 
+	 * @param parkingRegistryRepository
+	 *            repositorio del objeto {@link ParkingRegistry}
+	 * @param vehicleService
+	 *            servicio de vehiculos
+	 * 
+	 * @param calendarUtil
+	 *            utilidades para el manejo de fechas
+	 */
+	public ParkingRegistryServiceImpl(ParkingRegistryRepository parkingRegistryRepository,
+			VehicleService vehicleService, CalendarUtil calendarUtil) {
+		super();
+		this.parkingRegistryRepository = parkingRegistryRepository;
+		this.vehicleService = vehicleService;
+		this.calendarUtil = calendarUtil;
+	}
+
+	/**
 	 * Metodo encargado de generar los datos del registro
 	 * 
 	 * @param vehicle
@@ -72,7 +98,7 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	public ParkingRegistry generateRegistry(Vehicle vehicle) {
 
 		ParkingRegistry parkingRegistry = new ParkingRegistry();
-		parkingRegistry.setEntryDate(Calendar.getInstance().getTime());
+		parkingRegistry.setEntryDate(calendarUtil.getCurrentDate().getTime());
 		parkingRegistry.setVehicle(vehicle);
 
 		return parkingRegistry;
@@ -110,6 +136,26 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 		return existsAvailableSpace;
 	}
 
+	/**
+	 * Permite validar si la placa puede ingresar teniendo en cuenta la fecha
+	 * 
+	 * @param plate
+	 *            placa del vehiculo a ingresar
+	 * 
+	 * @return {@link Boolean} que indica si es posible ingresar o no
+	 */
+	private boolean isValidDayByPlate(String plate) {
+
+		boolean isValidDay = true;
+
+		if (plate.startsWith(LettersConstants.A)) {
+			isValidDay = calendarUtil.isValidDayOfWeek(calendarUtil.getCurrentDate(),
+					ApplicationConstants.VALID_DAYS_FOR_PLATE_STARTS_WITH_A);
+		}
+
+		return isValidDay;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -119,16 +165,23 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	@Override
 	public boolean registerEntry(VehicleModel vehicleModel) throws ApplicationException {
 
-		// Se verifica la disponibilidad para el tipo de vehiculo
 		VehicleTypeEnum vehicleType = VehicleTypeEnum.valueOf(vehicleModel.getVehicleType());
+		String vehiclePlate = vehicleModel.getPlate();
+
+		// Se verifica la disponibilidad para el tipo de vehiculo
 		boolean availableSpace = existsAvailableSpace(vehicleType);
 		if (!availableSpace) {
 			throw new ApplicationException(ErrorEnum.UNAVAILABLE_SPACE);
 		}
 
+		// Se verifica si el vehiculo puede ingresar bajo el criterio de placa y fecha
+		boolean isValidDay = isValidDayByPlate(vehiclePlate);
+		if (!isValidDay) {
+			throw new ApplicationException(ErrorEnum.ACCESS_DENIED_BY_DATE_AND_PLATE);
+		}
+
 		// Se verifica si ya se encuentra registrado en el sistema
-		String plate = vehicleModel.getPlate();
-		Vehicle vehicle = vehicleService.getVehicleByPlate(plate);
+		Vehicle vehicle = vehicleService.getVehicleByPlate(vehiclePlate);
 
 		// Se registra en caso de ser necesario
 		if (vehicle == null) {

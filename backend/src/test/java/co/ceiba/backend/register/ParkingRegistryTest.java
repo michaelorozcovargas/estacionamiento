@@ -1,7 +1,10 @@
 package co.ceiba.backend.register;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
+
+import java.util.Calendar;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +25,7 @@ import co.ceiba.backend.service.ParkingRegistryService;
 import co.ceiba.backend.service.VehicleService;
 import co.ceiba.backend.service.impl.ParkingRegistryServiceImpl;
 import co.ceiba.backend.service.impl.VehicleServiceImpl;
+import co.ceiba.backend.utilities.CalendarUtil;
 
 /**
  * Contiene las pruebas unitarias para las funcionalidades de registro de
@@ -44,6 +48,11 @@ public class ParkingRegistryTest {
 	@Mock
 	private VehicleRepository vehicleRepository;
 	/**
+	 * Mock de las utilidades de fechas
+	 */
+	@Mock
+	private CalendarUtil calendarUtil;
+	/**
 	 * Inyeccion de mocks
 	 */
 	@InjectMocks
@@ -53,7 +62,7 @@ public class ParkingRegistryTest {
 	 */
 	@InjectMocks
 	private ParkingRegistryService parkingRegistryService = new ParkingRegistryServiceImpl(parkingRegistryRepository,
-			vehicleService);
+			vehicleService, calendarUtil);
 
 	/**
 	 * Permite generar un objeto vehiculo del tipo definido para las pruebas
@@ -72,10 +81,10 @@ public class ParkingRegistryTest {
 	}
 
 	/**
-	 * Prueba de fallo ante espacio para carros
+	 * Prueba unitaria de fallo ante espacio para carros
 	 */
 	@Test
-	public void failedRegisterVehicleByCarSpaceUT() {
+	public void failedRegisterCarBySpaceUT() {
 
 		// ------------------------------------------
 		// Arrange
@@ -101,97 +110,83 @@ public class ParkingRegistryTest {
 			// ------------------------------------------
 			// Assert
 			// ------------------------------------------
-			org.junit.Assert.assertEquals(ErrorEnum.UNAVAILABLE_SPACE.toString(), e.getMessage());
+			assertEquals(ErrorEnum.UNAVAILABLE_SPACE.toString(), e.getMessage());
 		}
 	}
 
 	/**
-	 * Prueba de fallo ante espacio para motos
-	 * 
-	 * @throws ApplicationException
+	 * Prueba unitaria de fallo ante espacio para motos
 	 */
-	// @Test(expected = ApplicationException.class)
-	public void failedRegisterVehicleByMotorcycleSpace() throws ApplicationException {
+	@Test
+	public void failedRegisterMotorcycleBySpaceUT() {
 
 		// ------------------------------------------
 		// Arrange
 		// ------------------------------------------
-		String plate = "PLACA12345";
-		Integer cc = 123;
 		VehicleTypeEnum vehicleType = VehicleTypeEnum.MOTORCYCLE;
 
-		VehicleModel vehicle = new VehicleModelBuilder().withPlate(plate).withCubicCentimeters(cc)
-				.withVehicleType(vehicleType).build();
+		VehicleModel vehicleModel = generateVehicleModel(vehicleType);
 
-		// ParkingRegistryRepository parkingRegistryRepository =
-		// Mockito.mock(ParkingRegistryRepository.class);
 		when(parkingRegistryRepository.countParkedVehiclesByType(vehicleType))
 				.thenReturn(ApplicationConstants.MAX_PARKED_MOTORCYCLE);
-
-		// ParkingRegistryService parkingRegistryService = new
-		// ParkingRegistryServiceImpl(parkingRegistryRepository,
-		// vehicleService);
 
 		// ------------------------------------------
 		// Act
 		// ------------------------------------------
 		try {
-			parkingRegistryService.registerEntry(vehicle);
+			parkingRegistryService.registerEntry(vehicleModel);
+
+			// Si no lanza excepcion falla
+			fail();
 
 		} catch (ApplicationException e) {
 
 			// ------------------------------------------
 			// Assert
 			// ------------------------------------------
-			org.junit.Assert.assertEquals(ErrorEnum.UNAVAILABLE_SPACE.toString(), e.getMessage());
-			throw e;
+			assertEquals(ErrorEnum.UNAVAILABLE_SPACE.toString(), e.getMessage());
 		}
 	}
 
-	// TODO refactorizar para tener en cuenta las circunstancias de exito
-	// @Test
-	/*
-	 * public void registerVehicleUnitTestSuccessful() {
-	 * 
-	 * // ------------------------------------------ // Arrange //
-	 * ------------------------------------------ boolean registered = false; String
-	 * plate = "PLACA1234"; Integer cc = 123; VehicleTypeEnum vehicleType =
-	 * VehicleTypeEnum.CAR;
-	 * 
-	 * VehicleModel vehicle = new
-	 * VehicleModelBuilder().withPlate(plate).withCubicCentimeters(cc)
-	 * .withVehicleType(vehicleType).build();
-	 * 
-	 * Vehicle vehicle = VehicleConverter.getInstance().getVehicle(vehicleModel);
-	 * 
-	 * when(parkingRegistryRepository.save(parkingRegistry)).thenReturn(
-	 * parkingRegistry);
-	 * 
-	 * when(vehicleService.getVehicleByPlate(plate)).thenReturn(null);
-	 * 
-	 * when(vehicleService.registerVehicle(vehicleModel)).thenReturn(vehicle);
-	 * 
-	 * ParkingRegistry parkingRegistry = new
-	 * ParkingRegistryServiceImpl().generateRegistry(vehicle);
-	 * 
-	 * // ParkingRegistryService parkingRegistryService = //
-	 * Mockito.mock(ParkingRegistryService.class); //
-	 * when(parkingRegistryService.registerEntry(vehicle)).thenReturn(Boolean.TRUE);
-	 * 
-	 * /* VehicleRepository vehicleRepositoryMock =
-	 * Mockito.mock(VehicleRepository.class);
-	 * when(vehicleRepositoryMock.findByPlate(plate)).thenReturn(new Vehicle());
-	 * 
-	 * VehicleRegistryService vehicleRegistryService = new
-	 * VehicleRegistryServiceImpl(vehicleRepositoryMock);
-	 * 
-	 *
-	 * // ------------------------------------------ // Act //
-	 * ------------------------------------------ // TODO registered =
-	 * parkingRegistryService.registerEntry(vehicle);
-	 * 
-	 * // ------------------------------------------ // Assert //
-	 * ------------------------------------------
-	 * org.junit.Assert.assertTrue(registered); }
+	/**
+	 * Prueba unitaria de fallo ante ingreso con placa que inicia con letra "A" en
+	 * un dia diferente a Domingo o Lunes
 	 */
+	@Test
+	public void failedRegisterVehicleByAPlateLetterUT() {
+
+		// ------------------------------------------
+		// Arrange
+		// ------------------------------------------
+		VehicleTypeEnum vehicleType = VehicleTypeEnum.CAR;
+
+		VehicleModel vehicleModel = generateVehicleModel(vehicleType);
+
+		vehicleModel.setPlate("A_PLACA123");
+
+		// Viernes 29 de Junio de 2018
+		Calendar friday = Calendar.getInstance();
+		friday.set(2018, 06, 29);
+
+		when(calendarUtil.getCurrentDate()).thenReturn(friday);
+
+		when(parkingRegistryRepository.countParkedVehiclesByType(vehicleType)).thenReturn(0);
+
+		// ------------------------------------------
+		// Act
+		// ------------------------------------------
+		try {
+			parkingRegistryService.registerEntry(vehicleModel);
+
+			// Si no lanza excepcion falla
+			fail();
+
+		} catch (ApplicationException e) {
+
+			// ------------------------------------------
+			// Assert
+			// ------------------------------------------
+			assertEquals(ErrorEnum.ACCESS_DENIED_BY_DATE_AND_PLATE.toString(), e.getMessage());
+		}
+	}
 }

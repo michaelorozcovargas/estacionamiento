@@ -7,7 +7,10 @@ package co.ceiba.backend.error;
  */
 public enum ErrorEnum {
 
-	UNAVAILABLE_SPACE(1, "No existe espacio disponible para el tipo de vehiculo");
+	UNAVAILABLE_SPACE(1, "No existe espacio disponible para el tipo de vehiculo"),
+
+	ACCESS_DENIED_BY_DATE_AND_PLATE(2,
+			"Acceso no autorizado, las placas que inician por la letra A solo pueden ingresar los dias Domingo y Lunes");
 
 	/**
 	 * Metodo constructor de la clase
