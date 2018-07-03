@@ -44,10 +44,10 @@ pipeline {
 		stage('Build') {
 			steps{
 				echo "------------>Build<------------"
-				sh 'gradle --b ./build.gradle compileJava'
+				// sh 'gradle --b ./build.gradle compileJava'
 				
 				//Construir sin tarea test que se ejecuto previamente
-				// sh 'gradle --b ./build.gradle build -x test'
+				sh 'gradle --b ./build.gradle build -x test'
 			}
 		}
 	}
