@@ -1,7 +1,9 @@
 package co.ceiba.backend.register;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import co.ceiba.backend.builder.VehicleModelBuilder;
 import co.ceiba.backend.constants.ApplicationConstants;
+import co.ceiba.backend.entity.ParkingRegistry;
 import co.ceiba.backend.entity.VehicleTypeEnum;
 import co.ceiba.backend.error.ApplicationException;
 import co.ceiba.backend.error.ErrorEnum;
@@ -189,4 +192,45 @@ public class ParkingRegistryTest {
 			assertEquals(ErrorEnum.ACCESS_DENIED_BY_DATE_AND_PLATE.toString(), e.getMessage());
 		}
 	}
+
+	/**
+	 * Prueba unitaria de exito ante ingreso de vehiculo
+	 */
+	@Test
+	public void successRegisterVehicleUT() {
+
+		// ------------------------------------------
+		// Arrange
+		// ------------------------------------------
+		boolean registered = false;
+
+		VehicleTypeEnum vehicleType = VehicleTypeEnum.CAR;
+
+		VehicleModel vehicleModel = generateVehicleModel(vehicleType);
+
+		when(vehicleRepository.findByPlate(vehicleModel.getPlate())).thenReturn(null);
+
+		when(vehicleRepository.save(any())).thenReturn(any());
+
+		when(parkingRegistryRepository.countParkedVehiclesByType(vehicleType)).thenReturn(0);
+
+		when(parkingRegistryRepository.save(any())).thenReturn(new ParkingRegistry());
+
+		when(calendarUtil.getCurrentDate()).thenReturn(Calendar.getInstance());
+
+		// ------------------------------------------
+		// Act
+		// ------------------------------------------
+		try {
+			registered = parkingRegistryService.registerEntry(vehicleModel);
+		} catch (ApplicationException e) {
+			fail();
+		}
+
+		// ------------------------------------------
+		// Assert
+		// ------------------------------------------
+		assertTrue(registered);
+	}
+
 }
