@@ -5,7 +5,7 @@ package co.ceiba.backend.constants;
  * 
  * @author michael.orozco
  */
-public class LettersConstants {
+public final class LettersConstants {
 
 	/**
 	 * Metodo constructor de la clase

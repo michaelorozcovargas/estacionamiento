@@ -37,7 +37,7 @@ public class CalendarUtil {
 		Integer dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
 
 		for (Integer validDay : validDays) {
-			if (validDay == dayOfWeek) {
+			if (validDay.equals(dayOfWeek)) {
 				validDate = true;
 				break;
 			}
