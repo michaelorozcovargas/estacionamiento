@@ -37,7 +37,6 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	 * Servicios de vehiculos
 	 */
 	@Autowired
-	@Qualifier("vehicleService")
 	private VehicleService vehicleService;
 
 	/**

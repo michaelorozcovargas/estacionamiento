@@ -11,6 +11,10 @@ public class ApplicationException extends Exception {
 	 * Serial
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * Error asociado a la excepcion
+	 */
+	private final ErrorEnum error;
 
 	/**
 	 * Metodo constructor de la clase
@@ -19,6 +23,14 @@ public class ApplicationException extends Exception {
 	 *            error asociado
 	 */
 	public ApplicationException(ErrorEnum error) {
-		super(error.toString());
+		this.error = error;
 	}
+
+	/**
+	 * @return valor del campo error
+	 */
+	public ErrorEnum getError() {
+		return error;
+	}
+
 }

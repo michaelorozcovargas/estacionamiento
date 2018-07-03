@@ -7,9 +7,9 @@ package co.ceiba.backend.error;
  */
 public enum ErrorEnum {
 
-	UNAVAILABLE_SPACE(1, "No existe espacio disponible para el tipo de vehiculo"),
+	UNAVAILABLE_SPACE("01", "No existe espacio disponible para el tipo de vehiculo"),
 
-	ACCESS_DENIED_BY_DATE_AND_PLATE(2,
+	ACCESS_DENIED_BY_DATE_AND_PLATE("02",
 			"Acceso no autorizado, las placas que inician por la letra A solo pueden ingresar los dias Domingo y Lunes");
 
 	/**
@@ -20,7 +20,7 @@ public enum ErrorEnum {
 	 * @param errorMessage
 	 *            Mensaje de errror
 	 */
-	private ErrorEnum(Integer errorCode, String errorMessage) {
+	private ErrorEnum(String errorCode, String errorMessage) {
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
@@ -28,7 +28,8 @@ public enum ErrorEnum {
 	/**
 	 * Codigo de error
 	 */
-	private Integer errorCode;
+	private String errorCode;
+
 	/**
 	 * Mensaje de errror
 	 */
@@ -37,7 +38,7 @@ public enum ErrorEnum {
 	/**
 	 * @return valor del campo errorCode
 	 */
-	public Integer getErrorCode() {
+	public String getErrorCode() {
 		return errorCode;
 	}
 
@@ -46,15 +47,5 @@ public enum ErrorEnum {
 	 */
 	public String getErrorMessage() {
 		return errorMessage;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Enum#toString()
-	 */
-	@Override
-	public String toString() {
-		return "{ \"code\" : " + errorCode + ", \"message\" : \"" + errorMessage + "\" }";
 	}
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.ceiba.backend.error.ApplicationException;
+import co.ceiba.backend.model.ResponseDTO;
 import co.ceiba.backend.model.VehicleModel;
 import co.ceiba.backend.service.ParkingRegistryService;
 
@@ -22,7 +22,7 @@ import co.ceiba.backend.service.ParkingRegistryService;
  */
 @RestController
 @RequestMapping("/parkingService")
-public class ParkingService {
+public class ParkingService extends Service {
 
 	/**
 	 * Servicios de estacionamiento
@@ -40,14 +40,20 @@ public class ParkingService {
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, path = "/registerEntry")
 	@ResponseBody
-	public ResponseEntity registerEntry(@RequestBody(required = true) VehicleModel vehicleModel) {
-		ResponseEntity response = new ResponseEntity(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK);
-		try {
-			parkingRegistryService.registerEntry(vehicleModel);
-		} catch (ApplicationException exception) {
-			response = new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		return response;
+	public ResponseEntity<ResponseDTO> registerEntry(@RequestBody(required = true) VehicleModel vehicleModel) {
+		// ResponseEntity response = new ResponseEntity(HttpStatus.OK.getReasonPhrase(),
+		// HttpStatus.OK);
+		// try {
+		// parkingRegistryService.registerEntry(vehicleModel);
+		// } catch (ApplicationException exception) {
+		// response = new ResponseEntity(exception.getMessage(),
+		// HttpStatus.BAD_REQUEST);
+		// }
+		// return response;
+
+		ResponseDTO responseDTO = new ResponseDTO("00", "TODO BIEN");
+
+		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
 	}
 
 }
