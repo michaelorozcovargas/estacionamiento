@@ -8,11 +8,6 @@ package co.ceiba.backend.model;
 public class VehicleModel {
 
 	/**
-	 * Identificador del vehiculo
-	 */
-	private Integer id;
-
-	/**
 	 * Placa del vehiculo
 	 */
 	private String plate;
@@ -38,32 +33,16 @@ public class VehicleModel {
 	 * Metodo constructor de la clase
 	 * 
 	 * @param plate
-	 *            placa
+	 *            placa del vehiculo
 	 * @param cubicCentimeters
-	 *            centimetros cubicos
+	 *            centimetros cubicos del vehiculo
 	 * @param vehicleType
-	 *            tipo de vehiculo
+	 *            tipo del vehiculo
 	 */
 	public VehicleModel(String plate, Integer cubicCentimeters, String vehicleType) {
-		super();
 		this.plate = plate;
 		this.cubicCentimeters = cubicCentimeters;
 		this.vehicleType = vehicleType;
-	}
-
-	/**
-	 * @return valor del campo id
-	 */
-	public Integer getId() {
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            nuevo valor para el campo id
-	 */
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	/**

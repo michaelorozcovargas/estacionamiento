@@ -110,5 +110,4 @@ public class ParkingRegistry {
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
 	}
-
 }

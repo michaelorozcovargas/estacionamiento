@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author michael.orozco
  */
-@Component("calendarUtil")
+@Component
 public class CalendarUtil {
 
 	/**

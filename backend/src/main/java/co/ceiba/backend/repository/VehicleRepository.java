@@ -10,7 +10,7 @@ import co.ceiba.backend.entity.Vehicle;
  * 
  * @author michael.orozco
  */
-@Repository("vehicleRepository")
+@Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
 
 	/**

@@ -46,26 +46,7 @@ public class Vehicle {
 	 * Metodo constructor de la clase
 	 */
 	public Vehicle() {
-	}
-
-	/**
-	 * Metodo constructor de la clase
-	 * 
-	 * @param id
-	 *            Identificador del vehiculo
-	 * @param plate
-	 *            Placa del vehiculo
-	 * @param cubicCentimeters
-	 *            Centimetros cubicos
-	 * @param vehicleType
-	 *            Tipo de vehiculo
-	 */
-	public Vehicle(Integer id, String plate, Integer cubicCentimeters, VehicleTypeEnum vehicleType) {
-		super();
-		this.id = id;
-		this.plate = plate;
-		this.cubicCentimeters = cubicCentimeters;
-		this.vehicleType = vehicleType;
+		// Vacio a proposito
 	}
 
 	/**
@@ -127,5 +108,4 @@ public class Vehicle {
 	public void setVehicleType(VehicleTypeEnum vehicleType) {
 		this.vehicleType = vehicleType;
 	}
-
 }
