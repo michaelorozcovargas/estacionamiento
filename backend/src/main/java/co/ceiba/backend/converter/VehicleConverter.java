@@ -1,53 +1,34 @@
 package co.ceiba.backend.converter;
 
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
 import co.ceiba.backend.entity.Vehicle;
-import co.ceiba.backend.entity.VehicleTypeEnum;
 import co.ceiba.backend.model.VehicleModel;
 
 /**
- * Utilidad para conversion de tipos de dato vehiculos
+ * Utilidad para conversion de tipos de dato vehiculo
  * 
  * @author michael.orozco
  */
-public final class VehicleConverter {
+@Component
+public class VehicleConverter implements Converter<Vehicle, VehicleModel> {
 
-	/**
-	 * Instancia unica de la clase
-	 */
-	private static final VehicleConverter INSTANCE = new VehicleConverter();
-
-	/**
-	 * Metodo constructor de la clase
-	 */
-	private VehicleConverter() {
-		// Metodo vacio a proposito
-	}
-
-	/**
-	 * @return unica instancia de la clase
-	 */
-	public static VehicleConverter getInstance() {
-		return INSTANCE;
-	}
-
-	/**
-	 * Permite convertir un objeto de tipo {@link VehicleModel} a uno de tipo
-	 * {@link Vehicle}
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param vehicleModel
-	 *            objeto a convertir
-	 * 
-	 * @return objeto de tipo {@link Vehicle}
+	 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.
+	 * Object)
 	 */
-	public Vehicle getVehicle(VehicleModel vehicleModel) {
+	@Override
+	public VehicleModel convert(Vehicle source) {
 
-		Vehicle vehicle = new Vehicle();
-		vehicle.setId(vehicle.getId());
-		vehicle.setPlate(vehicleModel.getPlate());
-		vehicle.setCubicCentimeters(vehicleModel.getCubicCentimeters());
-		vehicle.setVehicleType(VehicleTypeEnum.valueOf(vehicleModel.getVehicleType()));
+		VehicleModel model = new VehicleModel();
+		model.setPlate(source.getPlate());
+		model.setCubicCentimeters(source.getCubicCentimeters());
+		model.setVehicleType(source.getVehicleType().toString());
 
-		return vehicle;
+		return model;
 	}
 
 }

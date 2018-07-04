@@ -1,5 +1,7 @@
 package co.ceiba.backend.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,4 +29,11 @@ public interface ParkingRegistryRepository extends JpaRepository<ParkingRegistry
 	@Query(value = "SELECT COUNT(1) FROM ParkingRegistry p WHERE (p.vehicle.vehicleType = :vehicleType) AND (p.outDate IS NULL)")
 	Integer countParkedVehiclesByType(@Param("vehicleType") VehicleTypeEnum vehicleType);
 
+	/**
+	 * Consulta los vehiculos que se encuentran en el estacionamiento
+	 * 
+	 * @return Lista de vehiculos parqueados
+	 */
+	@Query(value = "SELECT p FROM ParkingRegistry p WHERE (p.outDate IS NULL)")
+	List<ParkingRegistry> findParkedVehicles();
 }
