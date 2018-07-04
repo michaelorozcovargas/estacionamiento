@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import co.ceiba.backend.builder.VehicleModelBuilder;
 import co.ceiba.backend.constants.ApplicationConstants;
 import co.ceiba.backend.constants.ResponseCodeEnum;
+import co.ceiba.backend.converter.VehicleModelConverter;
 import co.ceiba.backend.entity.ParkingRegistry;
 import co.ceiba.backend.entity.VehicleTypeEnum;
 import co.ceiba.backend.error.ApplicationException;
@@ -38,7 +39,7 @@ import co.ceiba.backend.utilities.CalendarUtil;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ParkingRegistryTest {
+public class ParkingRegistryUnitTests {
 
 	/**
 	 * Mock del repositorio del estacionamiento
@@ -56,10 +57,15 @@ public class ParkingRegistryTest {
 	@Mock
 	private CalendarUtil calendarUtil;
 	/**
+	 * Mock de la conversion de modelos
+	 */
+	@Mock
+	private VehicleModelConverter vehicleModelConverter;
+	/**
 	 * Inyeccion de mocks
 	 */
 	@InjectMocks
-	private VehicleService vehicleService = new VehicleServiceImpl(vehicleRepository);
+	private VehicleService vehicleService = new VehicleServiceImpl(vehicleRepository, vehicleModelConverter);
 	/**
 	 * Inyeccion de mocks
 	 */
@@ -87,7 +93,7 @@ public class ParkingRegistryTest {
 	 * Prueba unitaria de fallo ante espacio para carros
 	 */
 	@Test
-	public void failedRegisterCarBySpaceUT() {
+	public void failedRegisterCarBySpace() {
 
 		// ------------------------------------------
 		// Arrange
@@ -121,7 +127,7 @@ public class ParkingRegistryTest {
 	 * Prueba unitaria de fallo ante espacio para motos
 	 */
 	@Test
-	public void failedRegisterMotorcycleBySpaceUT() {
+	public void failedRegisterMotorcycleBySpace() {
 
 		// ------------------------------------------
 		// Arrange
@@ -156,7 +162,7 @@ public class ParkingRegistryTest {
 	 * un dia diferente a Domingo o Lunes
 	 */
 	@Test
-	public void failedRegisterVehicleByAPlateLetterUT() {
+	public void failedRegisterVehicleByAPlateLetter() {
 
 		// ------------------------------------------
 		// Arrange
@@ -197,7 +203,7 @@ public class ParkingRegistryTest {
 	 * Prueba unitaria de exito ante ingreso de vehiculo
 	 */
 	@Test
-	public void successRegisterVehicleUT() {
+	public void successRegisterVehicle() {
 
 		// ------------------------------------------
 		// Arrange

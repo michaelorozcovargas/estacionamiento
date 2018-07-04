@@ -13,7 +13,7 @@ import co.ceiba.backend.entity.VehicleTypeEnum;
  * 
  * @author michael.orozco
  */
-@Repository("parkingRegistryRepository")
+@Repository
 public interface ParkingRegistryRepository extends JpaRepository<ParkingRegistry, Integer> {
 
 	/**

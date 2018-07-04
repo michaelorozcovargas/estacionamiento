@@ -1,12 +1,11 @@
 package co.ceiba.backend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import co.ceiba.backend.constants.ApplicationConstants;
-import co.ceiba.backend.constants.StringConstants;
 import co.ceiba.backend.constants.ResponseCodeEnum;
+import co.ceiba.backend.constants.StringConstants;
 import co.ceiba.backend.entity.ParkingRegistry;
 import co.ceiba.backend.entity.Vehicle;
 import co.ceiba.backend.entity.VehicleTypeEnum;
@@ -23,14 +22,13 @@ import co.ceiba.backend.utilities.CalendarUtil;
  * 
  * @author michael.orozco
  */
-@Service("parkingRegistryService")
+@Service
 public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 
 	/**
 	 * Repositorio para la entidad {@link ParkingRegistry}
 	 */
 	@Autowired
-	@Qualifier("parkingRegistryRepository")
 	private ParkingRegistryRepository parkingRegistryRepository;
 
 	/**
@@ -43,7 +41,6 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	 * Utilidades para el manejo de fechas
 	 */
 	@Autowired
-	@Qualifier("calendarUtil")
 	private CalendarUtil calendarUtil;
 
 	/**
@@ -51,20 +48,6 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	 */
 	public ParkingRegistryServiceImpl() {
 		// Vacio a proposito
-	}
-
-	/**
-	 * Metodo constructor de la clase
-	 * 
-	 * @param parkingRegistryRepository
-	 *            repositorio del objeto {@link ParkingRegistry}
-	 * @param vehicleService
-	 *            servicio de vehiculos
-	 */
-	public ParkingRegistryServiceImpl(ParkingRegistryRepository parkingRegistryRepository,
-			VehicleService vehicleService) {
-		this.parkingRegistryRepository = parkingRegistryRepository;
-		this.vehicleService = vehicleService;
 	}
 
 	/**
@@ -94,7 +77,7 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	 * 
 	 * @return registro de estacionamiento
 	 */
-	public ParkingRegistry generateRegistry(Vehicle vehicle) {
+	private ParkingRegistry generateRegistry(Vehicle vehicle) {
 
 		ParkingRegistry parkingRegistry = new ParkingRegistry();
 		parkingRegistry.setEntryDate(calendarUtil.getCurrentDate().getTime());
