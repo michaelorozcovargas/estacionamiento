@@ -2,7 +2,6 @@ package co.ceiba.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.ceiba.backend.constants.ResponseCodeEnum;
 import co.ceiba.backend.model.ResponseDTO;
 import co.ceiba.backend.model.VehicleModel;
 import co.ceiba.backend.service.ParkingRegistryService;
@@ -41,19 +41,21 @@ public class ParkingService extends Service {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, path = "/registerEntry")
 	@ResponseBody
 	public ResponseEntity<ResponseDTO> registerEntry(@RequestBody(required = true) VehicleModel vehicleModel) {
-		// ResponseEntity response = new ResponseEntity(HttpStatus.OK.getReasonPhrase(),
-		// HttpStatus.OK);
-		// try {
-		// parkingRegistryService.registerEntry(vehicleModel);
-		// } catch (ApplicationException exception) {
-		// response = new ResponseEntity(exception.getMessage(),
-		// HttpStatus.BAD_REQUEST);
-		// }
-		// return response;
 
-		ResponseDTO responseDTO = new ResponseDTO("00", "TODO BIEN");
+		ResponseEntity<ResponseDTO> response;
+		ResponseDTO responseDTO;
 
-		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+		try {
+
+			boolean registered = parkingRegistryService.registerEntry(vehicleModel);
+			responseDTO = new ResponseDTO(registered ? ResponseCodeEnum.SUCCESSFULL : ResponseCodeEnum.GENERAL_ERROR);
+			response = buildResponse(responseDTO);
+
+		} catch (Exception exception) {
+			response = buildResponse(exception);
+		}
+
+		return response;
 	}
 
 }

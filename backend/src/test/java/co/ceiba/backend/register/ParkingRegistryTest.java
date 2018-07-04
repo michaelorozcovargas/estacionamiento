@@ -17,10 +17,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import co.ceiba.backend.builder.VehicleModelBuilder;
 import co.ceiba.backend.constants.ApplicationConstants;
+import co.ceiba.backend.constants.ResponseCodeEnum;
 import co.ceiba.backend.entity.ParkingRegistry;
 import co.ceiba.backend.entity.VehicleTypeEnum;
 import co.ceiba.backend.error.ApplicationException;
-import co.ceiba.backend.error.ErrorEnum;
 import co.ceiba.backend.model.VehicleModel;
 import co.ceiba.backend.repository.ParkingRegistryRepository;
 import co.ceiba.backend.repository.VehicleRepository;
@@ -113,7 +113,7 @@ public class ParkingRegistryTest {
 			// ------------------------------------------
 			// Assert
 			// ------------------------------------------
-			assertEquals(ErrorEnum.UNAVAILABLE_SPACE.toString(), e.getMessage());
+			assertEquals(ResponseCodeEnum.UNAVAILABLE_SPACE, e.getError());
 		}
 	}
 
@@ -147,7 +147,7 @@ public class ParkingRegistryTest {
 			// ------------------------------------------
 			// Assert
 			// ------------------------------------------
-			assertEquals(ErrorEnum.UNAVAILABLE_SPACE.toString(), e.getMessage());
+			assertEquals(ResponseCodeEnum.UNAVAILABLE_SPACE, e.getError());
 		}
 	}
 
@@ -189,7 +189,7 @@ public class ParkingRegistryTest {
 			// ------------------------------------------
 			// Assert
 			// ------------------------------------------
-			assertEquals(ErrorEnum.ACCESS_DENIED_BY_DATE_AND_PLATE.toString(), e.getMessage());
+			assertEquals(ResponseCodeEnum.ACCESS_DENIED_BY_DATE_AND_PLATE, e.getError());
 		}
 	}
 

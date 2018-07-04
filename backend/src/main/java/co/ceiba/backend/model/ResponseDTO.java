@@ -1,5 +1,7 @@
 package co.ceiba.backend.model;
 
+import co.ceiba.backend.constants.ResponseCodeEnum;
+
 /**
  * Almacena la respuesta de un servicio
  * 
@@ -10,17 +12,17 @@ public class ResponseDTO {
 	/**
 	 * Codigo de la respuesta
 	 */
-	private String code;
+	private String responseCode;
 	/**
 	 * Mensaje de la respuesta
 	 */
-	private String message;
+	private String responseMessage;
 
 	/**
 	 * Metodo constructor de la clase
 	 */
 	public ResponseDTO() {
-		// vacio a proposito
+		// Vacio a proposito
 	}
 
 	/**
@@ -33,15 +35,25 @@ public class ResponseDTO {
 	 */
 	public ResponseDTO(String code, String message) {
 		super();
-		this.code = code;
-		this.message = message;
+		this.responseCode = code;
+		this.responseMessage = message;
+	}
+
+	/**
+	 * Metodo constructor de la clase
+	 * 
+	 * @param responseCodeEnum
+	 *            codigo de respuesta asociado
+	 */
+	public ResponseDTO(ResponseCodeEnum responseCodeEnum) {
+		this(responseCodeEnum.getResponseCode(), responseCodeEnum.getResponseMessage());
 	}
 
 	/**
 	 * @return valor del campo code
 	 */
 	public String getCode() {
-		return code;
+		return responseCode;
 	}
 
 	/**
@@ -49,14 +61,14 @@ public class ResponseDTO {
 	 *            nuevo valor para el campo code
 	 */
 	public void setCode(String code) {
-		this.code = code;
+		this.responseCode = code;
 	}
 
 	/**
 	 * @return valor del campo message
 	 */
 	public String getMessage() {
-		return message;
+		return responseMessage;
 	}
 
 	/**
@@ -64,7 +76,7 @@ public class ResponseDTO {
 	 *            nuevo valor para el campo message
 	 */
 	public void setMessage(String message) {
-		this.message = message;
+		this.responseMessage = message;
 	}
 
 }

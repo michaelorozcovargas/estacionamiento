@@ -1,18 +1,20 @@
 package co.ceiba.backend.constants;
 
 /**
- * Define constantes que contienen las letras del alfabeto
+ * Define constantes que contienen cadenas de caracteres
  * 
  * @author michael.orozco
  */
-public final class LettersConstants {
+public final class StringConstants {
 
 	/**
 	 * Metodo constructor de la clase
 	 */
-	private LettersConstants() {
+	private StringConstants() {
 		// Vacio a proposito
 	}
 
 	public static final String A = "A";
+
+	public static final String TWO_POINTS_WITH_SPACE = ": ";
 }
