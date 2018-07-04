@@ -139,4 +139,26 @@ public class ParkingRegistryIntegrationTests {
 		}
 	}
 
+	/**
+	 * Prueba de integracion de exito ante ingreso de vehiculo
+	 */
+	@Test
+	@SqlGroup(@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:static/integration_test/truncate.sql"))
+	public void successRegisterVehicle() {
+		try {
+
+			VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.MOTORCYCLE);
+			String request = new ObjectMapper().writeValueAsString(vehicleModel);
+
+			mvc.perform(post(REGISTRY_SERVICE_URL) // servicio a invocar
+					.contentType(MediaType.APPLICATION_JSON) // formato de la peticion
+					.content(request)) // objeto de la peticion
+					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)) // Respuesta en JSON
+					.andExpect(jsonPath("$.code").value(ResponseCodeEnum.SUCCESSFULL.getResponseCode()));
+
+		} catch (Exception e) {
+			fail();
+		}
+	}
+
 }
