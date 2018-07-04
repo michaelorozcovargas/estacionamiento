@@ -17,4 +17,6 @@ public final class StringConstants {
 	public static final String A = "A";
 
 	public static final String TWO_POINTS_WITH_SPACE = ": ";
+
+	public static final String JSON_CODE = "$.code";
 }

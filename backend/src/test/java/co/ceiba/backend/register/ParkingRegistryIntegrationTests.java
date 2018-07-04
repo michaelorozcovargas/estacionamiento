@@ -1,16 +1,10 @@
 package co.ceiba.backend.register;
 
-import static org.junit.Assert.fail;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
@@ -18,12 +12,14 @@ import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import co.ceiba.backend.builder.VehicleModelBuilder;
 import co.ceiba.backend.constants.ResponseCodeEnum;
 import co.ceiba.backend.entity.VehicleTypeEnum;
 import co.ceiba.backend.model.VehicleModel;
+import co.ceiba.backend.util.ServiceCaller;
 
 /**
  * Contiene las pruebas de integracion para las funcionalidades de registro de
@@ -43,6 +39,11 @@ public class ParkingRegistryIntegrationTests {
 	 */
 	@Autowired
 	private MockMvc mvc;
+
+	/**
+	 * Invocador de servicios
+	 */
+	private ServiceCaller serviceCaller = new ServiceCaller();
 
 	/**
 	 * URL del servicio de registro de ingreso
@@ -67,74 +68,51 @@ public class ParkingRegistryIntegrationTests {
 
 	/**
 	 * Prueba de integracion de fallo ante espacio para carros
+	 * 
+	 * @throws JsonProcessingException
 	 */
 	@Test
 	@SqlGroup({
 			@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:static/integration_test/insertMaxCars.sql"),
 			@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:static/integration_test/truncate.sql") })
-	public void failedRegisterCarBySpace() {
+	public void failedRegisterCarBySpace() throws JsonProcessingException {
 
-		try {
+		VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.CAR);
+		String request = new ObjectMapper().writeValueAsString(vehicleModel);
 
-			VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.CAR);
-			String request = new ObjectMapper().writeValueAsString(vehicleModel);
-
-			mvc.perform(post(REGISTRY_SERVICE_URL) // servicio a invocar
-					.contentType(MediaType.APPLICATION_JSON) // formato de la peticion
-					.content(request)) // objeto de la peticion
-					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)) // Respuesta en JSON
-					.andExpect(jsonPath("$.code").value(ResponseCodeEnum.UNAVAILABLE_SPACE.getResponseCode()));
-
-		} catch (Exception e) {
-			fail();
-		}
+		serviceCaller.performCallService(mvc, REGISTRY_SERVICE_URL, request, ResponseCodeEnum.UNAVAILABLE_SPACE);
 	}
 
 	/**
 	 * Prueba de integracion de fallo ante espacio para motos
+	 * 
+	 * @throws JsonProcessingException
 	 */
 	@Test
 	@SqlGroup({
 			@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:static/integration_test/insertMaxMotorcycles.sql"),
 			@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:static/integration_test/truncate.sql") })
-	public void failedRegisterMotorcycleBySpace() {
+	public void failedRegisterMotorcycleBySpace() throws JsonProcessingException {
 
-		try {
+		VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.MOTORCYCLE);
+		String request = new ObjectMapper().writeValueAsString(vehicleModel);
 
-			VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.MOTORCYCLE);
-			String request = new ObjectMapper().writeValueAsString(vehicleModel);
-
-			mvc.perform(post(REGISTRY_SERVICE_URL) // servicio a invocar
-					.contentType(MediaType.APPLICATION_JSON) // formato de la peticion
-					.content(request)) // objeto de la peticion
-					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)) // Respuesta en JSON
-					.andExpect(jsonPath("$.code").value(ResponseCodeEnum.UNAVAILABLE_SPACE.getResponseCode()));
-
-		} catch (Exception e) {
-			fail();
-		}
+		serviceCaller.performCallService(mvc, REGISTRY_SERVICE_URL, request, ResponseCodeEnum.UNAVAILABLE_SPACE);
 	}
 
 	/**
 	 * Prueba de integracion de exito ante ingreso de vehiculo
+	 * 
+	 * @throws JsonProcessingException
 	 */
 	@Test
 	@SqlGroup(@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:static/integration_test/truncate.sql"))
-	public void successRegisterVehicle() {
-		try {
+	public void successRegisterVehicle() throws JsonProcessingException {
 
-			VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.MOTORCYCLE);
-			String request = new ObjectMapper().writeValueAsString(vehicleModel);
+		VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.MOTORCYCLE);
+		String request = new ObjectMapper().writeValueAsString(vehicleModel);
 
-			mvc.perform(post(REGISTRY_SERVICE_URL) // servicio a invocar
-					.contentType(MediaType.APPLICATION_JSON) // formato de la peticion
-					.content(request)) // objeto de la peticion
-					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)) // Respuesta en JSON
-					.andExpect(jsonPath("$.code").value(ResponseCodeEnum.SUCCESSFULL.getResponseCode()));
-
-		} catch (Exception e) {
-			fail();
-		}
+		serviceCaller.performCallService(mvc, REGISTRY_SERVICE_URL, request, ResponseCodeEnum.SUCCESSFULL);
 	}
 
 }
