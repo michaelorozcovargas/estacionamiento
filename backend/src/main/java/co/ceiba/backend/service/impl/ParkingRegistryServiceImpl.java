@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import co.ceiba.backend.constants.ApplicationConstants;
-import co.ceiba.backend.constants.LettersConstants;
+import co.ceiba.backend.constants.StringConstants;
+import co.ceiba.backend.constants.ResponseCodeEnum;
 import co.ceiba.backend.entity.ParkingRegistry;
 import co.ceiba.backend.entity.Vehicle;
 import co.ceiba.backend.entity.VehicleTypeEnum;
 import co.ceiba.backend.error.ApplicationException;
-import co.ceiba.backend.error.ErrorEnum;
 import co.ceiba.backend.model.VehicleModel;
 import co.ceiba.backend.repository.ParkingRegistryRepository;
 import co.ceiba.backend.service.ParkingRegistryService;
@@ -37,7 +37,6 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 	 * Servicios de vehiculos
 	 */
 	@Autowired
-	@Qualifier("vehicleService")
 	private VehicleService vehicleService;
 
 	/**
@@ -148,7 +147,7 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 
 		boolean isValidDay = true;
 
-		if (plate.startsWith(LettersConstants.A)) {
+		if (plate.startsWith(StringConstants.A)) {
 			isValidDay = calendarUtil.isValidDayOfWeek(calendarUtil.getCurrentDate(),
 					ApplicationConstants.VALID_DAYS_FOR_PLATE_STARTS_WITH_A);
 		}
@@ -171,13 +170,13 @@ public class ParkingRegistryServiceImpl implements ParkingRegistryService {
 		// Se verifica la disponibilidad para el tipo de vehiculo
 		boolean availableSpace = existsAvailableSpace(vehicleType);
 		if (!availableSpace) {
-			throw new ApplicationException(ErrorEnum.UNAVAILABLE_SPACE);
+			throw new ApplicationException(ResponseCodeEnum.UNAVAILABLE_SPACE);
 		}
 
 		// Se verifica si el vehiculo puede ingresar bajo el criterio de placa y fecha
 		boolean isValidDay = isValidDayByPlate(vehiclePlate);
 		if (!isValidDay) {
-			throw new ApplicationException(ErrorEnum.ACCESS_DENIED_BY_DATE_AND_PLATE);
+			throw new ApplicationException(ResponseCodeEnum.ACCESS_DENIED_BY_DATE_AND_PLATE);
 		}
 
 		// Se verifica si ya se encuentra registrado en el sistema
