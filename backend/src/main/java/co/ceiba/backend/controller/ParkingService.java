@@ -56,4 +56,10 @@ public class ParkingService extends Service {
 		return response;
 	}
 
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, path = "/test")
+	@ResponseBody
+	public ResponseEntity<ResponseDTO> test() {
+		System.out.println("invocado");
+		return buildResponse(new ResponseDTO(ResponseCodeEnum.SUCCESSFULL));
+	}
 }

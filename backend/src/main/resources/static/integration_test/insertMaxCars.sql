@@ -1,0 +1,45 @@
+# Insercion del maximo de carros permitidos por el estacionamiento
+
+INSERT INTO estacionamiento_it.vehicle VALUES (1, 1, "Placa_1", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (2, 2, "Placa_2", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (3, 3, "Placa_3", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (4, 4, "Placa_4", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (5, 5, "Placa_5", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (6, 6, "Placa_6", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (7, 7, "Placa_7", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (8, 8, "Placa_8", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (9, 9, "Placa_9", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (10, 10, "Placa_10", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (11, 11, "Placa_11", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (12, 12, "Placa_12", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (13, 13, "Placa_13", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (14, 14, "Placa_14", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (15, 15, "Placa_15", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (16, 16, "Placa_16", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (17, 17, "Placa_17", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (18, 18, "Placa_18", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (19, 19, "Placa_19", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (20, 20, "Placa_20", "CAR");
+INSERT INTO estacionamiento_it.vehicle VALUES (21, 21, "Placa_21", "CAR");
+
+INSERT INTO estacionamiento_it.parking_registry VALUES (21, now(), null, 1);
+INSERT INTO estacionamiento_it.parking_registry VALUES (22, now(), null, 2);
+INSERT INTO estacionamiento_it.parking_registry VALUES (23, now(), null, 3);
+INSERT INTO estacionamiento_it.parking_registry VALUES (24, now(), null, 4);
+INSERT INTO estacionamiento_it.parking_registry VALUES (25, now(), null, 5);
+INSERT INTO estacionamiento_it.parking_registry VALUES (26, now(), null, 6);
+INSERT INTO estacionamiento_it.parking_registry VALUES (27, now(), null, 7);
+INSERT INTO estacionamiento_it.parking_registry VALUES (28, now(), null, 8);
+INSERT INTO estacionamiento_it.parking_registry VALUES (29, now(), null, 9);
+INSERT INTO estacionamiento_it.parking_registry VALUES (30, now(), null, 10);
+INSERT INTO estacionamiento_it.parking_registry VALUES (31, now(), null, 11);
+INSERT INTO estacionamiento_it.parking_registry VALUES (32, now(), null, 12);
+INSERT INTO estacionamiento_it.parking_registry VALUES (33, now(), null, 13);
+INSERT INTO estacionamiento_it.parking_registry VALUES (34, now(), null, 14);
+INSERT INTO estacionamiento_it.parking_registry VALUES (35, now(), null, 15);
+INSERT INTO estacionamiento_it.parking_registry VALUES (36, now(), null, 16);
+INSERT INTO estacionamiento_it.parking_registry VALUES (37, now(), null, 17);
+INSERT INTO estacionamiento_it.parking_registry VALUES (38, now(), null, 18);
+INSERT INTO estacionamiento_it.parking_registry VALUES (39, now(), null, 19);
+INSERT INTO estacionamiento_it.parking_registry VALUES (40, now(), null, 20);
+INSERT INTO estacionamiento_it.parking_registry VALUES (41, now(), null, 21);
