@@ -229,6 +229,7 @@ public class ParkingRegistryUnitTests {
 		// ------------------------------------------
 		try {
 			registered = parkingRegistryService.registerEntry(vehicleModel);
+
 		} catch (ApplicationException e) {
 			fail();
 		}
