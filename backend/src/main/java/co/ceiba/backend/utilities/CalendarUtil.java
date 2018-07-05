@@ -1,6 +1,10 @@
 package co.ceiba.backend.utilities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
@@ -45,4 +49,24 @@ public class CalendarUtil {
 
 		return validDate;
 	}
+
+	public LocalDateTime formatDate(String stringFormat, Date date) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(stringFormat);
+		return LocalDateTime.parse(dateFormat.format(date));
+	}
+
+	public Date formatString(String stringFormat, String stringDate) {
+
+		Date date;
+		SimpleDateFormat dateFormat = new SimpleDateFormat(stringFormat);
+
+		try {
+			date = dateFormat.parse(stringDate);
+		} catch (ParseException e) {
+			date = null;
+		}
+
+		return date;
+	}
+
 }

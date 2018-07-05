@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import co.ceiba.backend.entity.ParkingRegistry;
+import co.ceiba.backend.entity.Vehicle;
 import co.ceiba.backend.entity.VehicleTypeEnum;
 
 /**
@@ -36,4 +37,15 @@ public interface ParkingRegistryRepository extends JpaRepository<ParkingRegistry
 	 */
 	@Query(value = "SELECT p FROM ParkingRegistry p JOIN p.vehicle v WHERE (p.outDate IS NULL)")
 	List<ParkingRegistry> findParkedVehicles();
+
+	/**
+	 * Consulta el registro activo de estacionamiento asociado a un vehiculo
+	 * 
+	 * @param vehicle
+	 *            vehiculo asociado
+	 * 
+	 * @return registro activo de estacionamiento asociado
+	 */
+	@Query(value = "SELECT p FROM ParkingRegistry p JOIN p.vehicle v WHERE (p.outDate IS NULL) AND (v = :vehicle)")
+	ParkingRegistry findActiveRegistryByVehicle(@Param("vehicle") Vehicle vehicle);
 }

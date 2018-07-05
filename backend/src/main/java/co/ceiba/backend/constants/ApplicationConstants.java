@@ -28,5 +28,9 @@ public final class ApplicationConstants {
 	 * Dias validos para los vehiculos con placas que inician por la letra "A"
 	 */
 	public static final Integer[] VALID_DAYS_FOR_PLATE_STARTS_WITH_A = { Calendar.MONDAY, Calendar.SUNDAY };
+	/**
+	 * Formato para el manejo de fechas
+	 */
+	public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
 }
