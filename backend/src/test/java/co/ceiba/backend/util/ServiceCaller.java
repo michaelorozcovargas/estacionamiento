@@ -1,6 +1,7 @@
 package co.ceiba.backend.util;
 
 import static org.assertj.core.api.Assertions.fail;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -25,8 +26,8 @@ public class ServiceCaller {
 	private MediaType mediaType = MediaType.APPLICATION_JSON;
 
 	/**
-	 * Metodo encargado de realizar la invocacion a un servicio validando ciertos
-	 * parametros
+	 * Metodo encargado de realizar la invocacion a un servicio POST validando
+	 * ciertos parametros
 	 * 
 	 * @param mvc
 	 *            contexto de la aplicacion web
@@ -37,7 +38,8 @@ public class ServiceCaller {
 	 * @param expectedResponse
 	 *            respuesta esperada
 	 */
-	public void performCallService(MockMvc mvc, String serviceURL, String request, ResponseCodeEnum expectedResponse) {
+	public void performPostCallService(MockMvc mvc, String serviceURL, String request,
+			ResponseCodeEnum expectedResponse) {
 
 		try {
 
@@ -52,4 +54,27 @@ public class ServiceCaller {
 		}
 	}
 
+	/**
+	 * Metodo encargado de realizar la invocacion a un servicio GET validando
+	 * ciertos parametros
+	 * 
+	 * @param mvc
+	 *            contexto de la aplicacion web
+	 * @param serviceURL
+	 *            servicio a invocar
+	 * @param expectedResponse
+	 *            respuesta esperada
+	 */
+	public void performGetCallService(MockMvc mvc, String serviceURL, ResponseCodeEnum expectedResponse) {
+
+		try {
+
+			mvc.perform(get(serviceURL)) // servicio a invocar
+					.andExpect(content().contentTypeCompatibleWith(mediaType)) // Formato de la respuesta
+					.andExpect(jsonPath(StringConstants.JSON_CODE).value(expectedResponse.getResponseCode())); // Asercion
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
 }

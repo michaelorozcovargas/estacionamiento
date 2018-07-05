@@ -8,6 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import co.ceiba.backend.entity.ParkingRegistry;
+import co.ceiba.backend.entity.Vehicle;
 import co.ceiba.backend.model.ParkingRegistryModel;
 
 /**
@@ -24,6 +25,17 @@ public class ParkingRegistryConverter implements Converter<ParkingRegistry, Park
 	@Autowired
 	private VehicleConverter vehicleConverter;
 
+	/**
+	 * Metodo constructor de la clase
+	 * 
+	 * @param vehicleConverter
+	 *            conversor para la clase {@link Vehicle}
+	 */
+	public ParkingRegistryConverter(VehicleConverter vehicleConverter) {
+		super();
+		this.vehicleConverter = vehicleConverter;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -37,7 +49,7 @@ public class ParkingRegistryConverter implements Converter<ParkingRegistry, Park
 		model.setEntryDate(source.getEntryDate());
 		model.setOutDate(source.getOutDate());
 
-		model.setVehicleModel(vehicleConverter.convert(source.getVehicle()));
+		model.setVehicle(vehicleConverter.convert(source.getVehicle()));
 
 		return model;
 	}
@@ -50,7 +62,7 @@ public class ParkingRegistryConverter implements Converter<ParkingRegistry, Park
 	 * 
 	 * @return lista convertida
 	 */
-	public List<ParkingRegistryModel> convert(List<ParkingRegistry> source) {
+	public List<ParkingRegistryModel> convertList(List<ParkingRegistry> source) {
 
 		List<ParkingRegistryModel> list = new ArrayList<>();
 
@@ -60,5 +72,4 @@ public class ParkingRegistryConverter implements Converter<ParkingRegistry, Park
 
 		return list;
 	}
-
 }

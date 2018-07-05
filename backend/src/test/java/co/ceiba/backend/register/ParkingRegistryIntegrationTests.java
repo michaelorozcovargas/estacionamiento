@@ -80,7 +80,7 @@ public class ParkingRegistryIntegrationTests {
 		VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.CAR);
 		String request = new ObjectMapper().writeValueAsString(vehicleModel);
 
-		serviceCaller.performCallService(mvc, REGISTRY_SERVICE_URL, request, ResponseCodeEnum.UNAVAILABLE_SPACE);
+		serviceCaller.performPostCallService(mvc, REGISTRY_SERVICE_URL, request, ResponseCodeEnum.UNAVAILABLE_SPACE);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class ParkingRegistryIntegrationTests {
 		VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.MOTORCYCLE);
 		String request = new ObjectMapper().writeValueAsString(vehicleModel);
 
-		serviceCaller.performCallService(mvc, REGISTRY_SERVICE_URL, request, ResponseCodeEnum.UNAVAILABLE_SPACE);
+		serviceCaller.performPostCallService(mvc, REGISTRY_SERVICE_URL, request, ResponseCodeEnum.UNAVAILABLE_SPACE);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class ParkingRegistryIntegrationTests {
 		VehicleModel vehicleModel = generateVehicleModel(VehicleTypeEnum.MOTORCYCLE);
 		String request = new ObjectMapper().writeValueAsString(vehicleModel);
 
-		serviceCaller.performCallService(mvc, REGISTRY_SERVICE_URL, request, ResponseCodeEnum.SUCCESSFULL);
+		serviceCaller.performPostCallService(mvc, REGISTRY_SERVICE_URL, request, ResponseCodeEnum.SUCCESSFULL);
 	}
 
 }

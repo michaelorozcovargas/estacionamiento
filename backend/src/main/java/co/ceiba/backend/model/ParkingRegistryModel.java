@@ -12,7 +12,7 @@ public class ParkingRegistryModel {
 	/**
 	 * Vehiculo asociado
 	 */
-	private VehicleModel vehicleModel;
+	private VehicleModel vehicle;
 
 	/**
 	 * Fecha de entrada
@@ -27,16 +27,16 @@ public class ParkingRegistryModel {
 	/**
 	 * @return valor del campo vehicleModel
 	 */
-	public VehicleModel getVehicleModel() {
-		return vehicleModel;
+	public VehicleModel getVehicle() {
+		return vehicle;
 	}
 
 	/**
 	 * @param vehicleModel
 	 *            nuevo valor para el campo vehicleModel
 	 */
-	public void setVehicleModel(VehicleModel vehicleModel) {
-		this.vehicleModel = vehicleModel;
+	public void setVehicle(VehicleModel vehicleModel) {
+		this.vehicle = vehicleModel;
 	}
 
 	/**

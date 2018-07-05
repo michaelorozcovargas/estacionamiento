@@ -1,4 +1,4 @@
-package co.ceiba.backend.model;
+package co.ceiba.backend.model.out;
 
 import co.ceiba.backend.constants.ResponseCodeEnum;
 
@@ -22,7 +22,7 @@ public class ResponseDTO {
 	 * Metodo constructor de la clase
 	 */
 	public ResponseDTO() {
-		// Vacio a proposito
+		this(ResponseCodeEnum.SUCCESSFULL);
 	}
 
 	/**

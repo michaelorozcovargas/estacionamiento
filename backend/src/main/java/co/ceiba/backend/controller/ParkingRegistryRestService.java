@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.ceiba.backend.constants.ResponseCodeEnum;
-import co.ceiba.backend.model.ResponseDTO;
 import co.ceiba.backend.model.VehicleModel;
+import co.ceiba.backend.model.out.ResponseDTO;
 import co.ceiba.backend.service.ParkingRegistryService;
 
 /**
@@ -21,7 +21,7 @@ import co.ceiba.backend.service.ParkingRegistryService;
  */
 @RestController
 @RequestMapping("/parkingService")
-public class ParkingService extends Service {
+public class ParkingRegistryRestService extends Service {
 
 	/**
 	 * Servicios de estacionamiento
@@ -54,12 +54,5 @@ public class ParkingService extends Service {
 		}
 
 		return response;
-	}
-
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, path = "/test")
-	@ResponseBody
-	public ResponseEntity<ResponseDTO> test() {
-		System.out.println("invocado");
-		return buildResponse(new ResponseDTO(ResponseCodeEnum.SUCCESSFULL));
 	}
 }

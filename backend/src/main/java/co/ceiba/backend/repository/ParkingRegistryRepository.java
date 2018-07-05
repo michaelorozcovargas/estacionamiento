@@ -34,6 +34,6 @@ public interface ParkingRegistryRepository extends JpaRepository<ParkingRegistry
 	 * 
 	 * @return Lista de vehiculos parqueados
 	 */
-	@Query(value = "SELECT p FROM ParkingRegistry p WHERE (p.outDate IS NULL)")
+	@Query(value = "SELECT p FROM ParkingRegistry p JOIN p.vehicle v WHERE (p.outDate IS NULL)")
 	List<ParkingRegistry> findParkedVehicles();
 }

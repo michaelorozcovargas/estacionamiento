@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import co.ceiba.backend.constants.ResponseCodeEnum;
 import co.ceiba.backend.constants.StringConstants;
 import co.ceiba.backend.error.ApplicationException;
-import co.ceiba.backend.model.ResponseDTO;
+import co.ceiba.backend.model.out.ResponseDTO;
 
 /**
  * Define el comportamiento general de los servicios

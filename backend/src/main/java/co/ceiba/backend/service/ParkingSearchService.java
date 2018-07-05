@@ -2,22 +2,20 @@ package co.ceiba.backend.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import co.ceiba.backend.converter.ParkingRegistryConverter;
 import co.ceiba.backend.model.ParkingRegistryModel;
-import co.ceiba.backend.repository.ParkingRegistryRepository;
 
-public class ParkingSearchService {
+/**
+ * Define las funcionalidades de busqueda en el estacionamiento
+ * 
+ * @author michael.orozco
+ */
+public interface ParkingSearchService {
 
-	@Autowired
-	private ParkingRegistryRepository parkingRegistryRepository;
-
-	@Autowired
-	private ParkingRegistryConverter parkingRegistryConverter;
-
-	public List<ParkingRegistryModel> searchParkedVehicles() {
-		return parkingRegistryConverter.convert(parkingRegistryRepository.findParkedVehicles());
-	}
+	/**
+	 * Permite consultar los vehiculos que se encuentran en el estacionamiento
+	 * 
+	 * @return {@link List} lista con los vehiculos
+	 */
+	List<ParkingRegistryModel> searchParkedVehicles();
 
 }
