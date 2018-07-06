@@ -42,9 +42,6 @@ jar {
 }
 
 test {
-
-    exclude '**/*IntegrationTests*'
-
 	jacoco {
 		append = false
 		destinationFile = file("jacoco/jacocoTest.exec")
