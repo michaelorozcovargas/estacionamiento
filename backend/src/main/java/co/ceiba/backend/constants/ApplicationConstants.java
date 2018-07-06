@@ -33,4 +33,27 @@ public final class ApplicationConstants {
 	 */
 	public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
+	/**
+	 * Precios del estacionamiento
+	 */
+	public static final Integer PRICE_HOUR_CAR = 1000;
+	public static final Integer PRICE_HOUR_MOTORCYCLE = 500;
+	public static final Integer PRICE_DAY_CAR = 8000;
+	public static final Integer PRICE_DAY_MOTORCYCLE = 4000;
+	public static final Integer ADITIONAL_PRICE_BY_MOTORCYCLE_CC = 2000;
+
+	/**
+	 * Cilidraje que requiere costo adicional
+	 */
+	public static final Integer MAX_MOTORCYCLE_CC = 500;
+
+	/**
+	 * Hora minima para no contar como dia
+	 */
+	public static final Integer MIN_HOUR = 9;
+	/**
+	 * Hora maxima que cuenta como dia
+	 */
+	public static final Integer MAX_HOUR = 24;
+
 }

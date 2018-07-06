@@ -43,11 +43,15 @@ public class ParkingInvoiceConverter implements Converter<ParkingInvoice, Parkin
 
 		ParkingInvoiceModel model = new ParkingInvoiceModel();
 
-		ParkingRegistryModel parkingRegistryModel = parkingRegistryConverter.convert(source.getRegistry());
+		if (source != null) {
 
-		model.setRegistry(parkingRegistryModel);
+			ParkingRegistryModel parkingRegistryModel = parkingRegistryConverter.convert(source.getRegistry());
 
-		model.setPrice(source.getPrice());
+			model.setRegistry(parkingRegistryModel);
+
+			model.setPrice(source.getPrice());
+
+		}
 
 		return model;
 	}

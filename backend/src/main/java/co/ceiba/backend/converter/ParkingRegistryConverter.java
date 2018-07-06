@@ -46,10 +46,12 @@ public class ParkingRegistryConverter implements Converter<ParkingRegistry, Park
 	public ParkingRegistryModel convert(ParkingRegistry source) {
 
 		ParkingRegistryModel model = new ParkingRegistryModel();
-		model.setEntryDate(source.getEntryDate());
-		model.setOutDate(source.getOutDate());
 
-		model.setVehicle(vehicleConverter.convert(source.getVehicle()));
+		if (source != null) {
+			model.setEntryDate(source.getEntryDate());
+			model.setOutDate(source.getOutDate());
+			model.setVehicle(vehicleConverter.convert(source.getVehicle()));
+		}
 
 		return model;
 	}

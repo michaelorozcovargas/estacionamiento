@@ -24,9 +24,12 @@ public class VehicleConverter implements Converter<Vehicle, VehicleModel> {
 	public VehicleModel convert(Vehicle source) {
 
 		VehicleModel model = new VehicleModel();
-		model.setPlate(source.getPlate());
-		model.setCubicCentimeters(source.getCubicCentimeters());
-		model.setVehicleType(source.getVehicleType().toString());
+
+		if (source != null) {
+			model.setPlate(source.getPlate());
+			model.setCubicCentimeters(source.getCubicCentimeters());
+			model.setVehicleType(source.getVehicleType().toString());
+		}
 
 		return model;
 	}

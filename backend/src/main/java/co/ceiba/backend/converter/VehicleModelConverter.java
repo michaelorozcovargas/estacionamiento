@@ -23,10 +23,15 @@ public class VehicleModelConverter implements Converter<VehicleModel, Vehicle> {
 	 */
 	@Override
 	public Vehicle convert(VehicleModel source) {
+
 		Vehicle vehicle = new Vehicle();
-		vehicle.setPlate(source.getPlate());
-		vehicle.setCubicCentimeters(source.getCubicCentimeters());
-		vehicle.setVehicleType(VehicleTypeEnum.valueOf(source.getVehicleType()));
+
+		if (source != null) {
+			vehicle.setPlate(source.getPlate());
+			vehicle.setCubicCentimeters(source.getCubicCentimeters());
+			vehicle.setVehicleType(VehicleTypeEnum.valueOf(source.getVehicleType()));
+		}
+
 		return vehicle;
 	}
 
